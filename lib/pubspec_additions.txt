@@ -1,0 +1,12 @@
+# Additional dependencies to add to pubspec.yaml
+
+# Add these to dependencies:
+get_it: ^7.6.4  # Dependency injection
+
+# Add these to dev_dependencies:
+test: ^1.24.6
+mockito: ^5.4.2
+bloc_test: ^9.1.4
+
+# Note: These should be added to the existing pubspec.yaml file
+# The current pubspec.yaml already includes most essential dependencies
