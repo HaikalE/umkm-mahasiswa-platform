@@ -1,0 +1,13 @@
+# This file configures the Flutter tool to build your app
+# Copy this file to local.properties and update the path to match your local Flutter SDK
+
+# Path to Flutter SDK (example)
+# flutter.sdk=/Users/yourname/flutter
+# flutter.sdk=C:\\Users\\yourname\\flutter
+
+# Uncomment this to run Flutter on another port
+# flutter.port=8080
+
+# Android SDK location (usually auto-detected)
+# sdk.dir=/Users/yourname/Library/Android/sdk
+# sdk.dir=C:\\Users\\yourname\\AppData\\Local\\Android\\sdk
