@@ -9,7 +9,7 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
-  get_it: ^7.6.4  # Add this line
+  get_it: ^7.6.4
   flutter:
     sdk: flutter
   
@@ -36,12 +36,10 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   
-  # Firebase - NOW ENABLED!
+  # Firebase
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
   cloud_firestore: ^4.13.6
-  # firebase_messaging: ^14.7.10  # Skip for V1
-  # firebase_analytics: ^10.7.4   # Skip for V1
   
   # Image & Media
   image_picker: ^1.0.4
@@ -59,9 +57,13 @@ dependencies:
   shimmer: ^3.0.0
   pull_to_refresh: ^2.0.0
   
+  # Icons & Animations
+  flutter_animate: ^4.2.0+1
+  lottie: ^2.7.0
+  
 dev_dependencies:
-  test: ^1.24.6   # Add this
-  mockito: ^5.4.2 # Add this
+  test: ^1.24.6
+  mockito: ^5.4.2
   flutter_test:
     sdk: flutter
   
@@ -77,21 +79,20 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
-  # Assets commented temporarily - add folders/files later
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
-  #   - assets/animations/
+  # Assets - NOW ENABLED!
+  assets:
+    - assets/images/
+    - assets/images/logos/
+    - assets/images/onboarding/
+    - assets/images/illustrations/
+    - assets/images/avatars/
+    - assets/icons/
+    - assets/icons/categories/
+    - assets/icons/skills/
+    - assets/icons/navigation/
+    - assets/animations/
   
-  # Fonts commented temporarily - add font files later
-  # fonts:
-  #   - family: Inter
-  #     fonts:
-  #       - asset: assets/fonts/Inter-Regular.ttf
-  #         weight: 400
-  #       - asset: assets/fonts/Inter-Medium.ttf
-  #         weight: 500
-  #       - asset: assets/fonts/Inter-SemiBold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/Inter-Bold.ttf
-  #         weight: 700
+  # Fonts - Using Google Fonts (No local files needed)
+  # Google Fonts will be used programmatically:
+  # - Inter (Primary) - Modern, professional
+  # - Poppins (Alternative) - Friendly, approachable
