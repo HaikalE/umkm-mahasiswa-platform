@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';  // Add Firebase test
-import 'package:firebase_auth/firebase_auth.dart';       // Add Firebase test
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import '../../../../core/config/app_config.dart';
 import '../../../../core/router/app_router.dart';
@@ -27,7 +28,7 @@ class _SplashPageState extends State<SplashPage>
   void initState() {
     super.initState();
     _initAnimations();
-    _testFirebaseConnection();  // Test Firebase first!
+    _testFirebaseConnection();
     _navigateToNext();
   }
 
@@ -56,9 +57,17 @@ class _SplashPageState extends State<SplashPage>
     _animationController.forward();
   }
 
-  // Test Firebase connection
+  // Test Firebase connection with comprehensive error handling
   Future<void> _testFirebaseConnection() async {
     try {
+      // Check if Firebase is initialized
+      if (Firebase.apps.isEmpty) {
+        print('❌ Firebase not initialized - skipping tests');
+        return;
+      }
+
+      print('🔥 Testing Firebase connection...');
+      
       // Test Firestore connection
       await FirebaseFirestore.instance
           .collection('test')
@@ -67,6 +76,7 @@ class _SplashPageState extends State<SplashPage>
         'message': 'Firebase connected successfully!',
         'timestamp': FieldValue.serverTimestamp(),
         'app_version': '1.0.0',
+        'test_time': DateTime.now().toIso8601String(),
       });
       
       print('✅ Firestore connection successful!');
@@ -77,6 +87,7 @@ class _SplashPageState extends State<SplashPage>
       
     } catch (e) {
       print('❌ Firebase connection failed: $e');
+      print('🔄 App will continue without Firebase features');
     }
   }
 
@@ -94,7 +105,7 @@ class _SplashPageState extends State<SplashPage>
         StorageKeys.onboardingCompleted,
       ) ?? false;
       
-      // Check if user is logged in
+      // Check if user is logged in (fallback to local storage for now)
       final accessToken = await localStorage.getString(StorageKeys.accessToken);
       final isLoggedIn = accessToken != null && accessToken.isNotEmpty;
 
