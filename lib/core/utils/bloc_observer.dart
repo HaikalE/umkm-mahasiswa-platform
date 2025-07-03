@@ -12,7 +12,10 @@ class AppBlocObserver extends BlocObserver {
 
   @override
   void onEvent(BlocBase bloc, Object? event) {
-    super.onEvent(bloc, event);
+    // Only call super.onEvent if bloc is actually a Bloc (not Cubit)
+    if (bloc is Bloc) {
+      super.onEvent(bloc, event);
+    }
     if (kDebugMode) {
       print('onEvent -- ${bloc.runtimeType}, $event');
     }
@@ -28,7 +31,10 @@ class AppBlocObserver extends BlocObserver {
 
   @override
   void onTransition(BlocBase bloc, Transition transition) {
-    super.onTransition(bloc, transition);
+    // Only call super.onTransition if bloc is actually a Bloc (not Cubit)
+    if (bloc is Bloc) {
+      super.onTransition(bloc, transition);
+    }
     if (kDebugMode) {
       print('onTransition -- ${bloc.runtimeType}, $transition');
     }
