@@ -23,6 +23,7 @@ class _SplashPageState extends State<SplashPage>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
+  late Animation<double> _slideAnimation;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _SplashPageState extends State<SplashPage>
 
   void _initAnimations() {
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 2500),
       vsync: this,
     );
 
@@ -43,15 +44,23 @@ class _SplashPageState extends State<SplashPage>
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
-      curve: const Interval(0.0, 0.6, curve: Curves.easeIn),
+      curve: const Interval(0.0, 0.6, curve: Curves.easeInOut),
     ));
 
     _scaleAnimation = Tween<double>(
-      begin: 0.8,
+      begin: 0.7,
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: const Interval(0.2, 0.8, curve: Curves.elasticOut),
+    ));
+
+    _slideAnimation = Tween<double>(
+      begin: 30.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: const Interval(0.4, 1.0, curve: Curves.easeOutCubic),
     ));
 
     _animationController.forward();
@@ -92,7 +101,7 @@ class _SplashPageState extends State<SplashPage>
   }
 
   Future<void> _navigateToNext() async {
-    await Future.delayed(const Duration(milliseconds: 3000));
+    await Future.delayed(const Duration(milliseconds: 3500));
     
     if (!mounted) return;
 
@@ -147,83 +156,137 @@ class _SplashPageState extends State<SplashPage>
         animation: _animationController,
         builder: (context, child) {
           return Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
                   AppColors.primary,
                   AppColors.primaryDark,
+                  AppColors.primaryDark.withOpacity(0.9),
                 ],
+                stops: const [0.0, 0.7, 1.0],
               ),
             ),
             child: Center(
               child: FadeTransition(
                 opacity: _fadeAnimation,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // App Logo
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.black.withOpacity(0.2),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.handshake_rounded,
-                          size: 60,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      
-                      // App Name
-                      const Text(
-                        AppConfig.appName,
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      
-                      // Tagline
-                      const Text(
-                        'Menghubungkan UMKM & Mahasiswa',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w300,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 60),
-                      
-                      // Loading Indicator
-                      const SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.white,
+                child: Transform.translate(
+                  offset: Offset(0, _slideAnimation.value),
+                  child: ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // App Logo with improved styling
+                        Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(35),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.black.withOpacity(0.25),
+                                blurRadius: 30,
+                                offset: const Offset(0, 15),
+                                spreadRadius: 0,
+                              ),
+                              BoxShadow(
+                                color: AppColors.primaryDark.withOpacity(0.4),
+                                blurRadius: 20,
+                                offset: const Offset(0, 5),
+                                spreadRadius: -5,
+                              ),
+                            ],
                           ),
-                          strokeWidth: 3,
+                          child: const Icon(
+                            Icons.handshake_rounded,
+                            size: 70,
+                            color: AppColors.primary,
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 48),
+                        
+                        // App Name with new typography
+                        Text(
+                          AppConfig.appName,
+                          style: AppTypography.heading1.copyWith(
+                            color: AppColors.white,
+                            fontSize: 36,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.5,
+                            shadows: [
+                              Shadow(
+                                color: AppColors.black.withOpacity(0.3),
+                                offset: const Offset(0, 2),
+                                blurRadius: 8,
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        
+                        // Tagline with improved typography
+                        Text(
+                          'Menghubungkan UMKM & Mahasiswa',
+                          style: AppTypography.bodyLarge.copyWith(
+                            color: AppColors.white.withOpacity(0.9),
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.3,
+                            height: 1.4,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        
+                        // Subtitle
+                        Text(
+                          'Platform Digitalisasi Indonesia',
+                          style: AppTypography.bodyMedium.copyWith(
+                            color: AppColors.white.withOpacity(0.7),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: 0.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 80),
+                        
+                        // Modern Loading Indicator
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: AppColors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.white,
+                              ),
+                              strokeWidth: 3,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        
+                        // Loading text
+                        Text(
+                          'Mempersiapkan aplikasi...',
+                          style: AppTypography.labelMedium.copyWith(
+                            color: AppColors.white.withOpacity(0.8),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
