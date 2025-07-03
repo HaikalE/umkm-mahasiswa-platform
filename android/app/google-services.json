@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "123834373612",
+    "project_id": "umkm-mahasiswa-platform",
+    "storage_bucket": "umkm-mahasiswa-platform.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123834373612:android:781721b4a767e0250e1cc9",
+        "android_client_info": {
+          "package_name": "com.example.umkm_mahasiswa_platform"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiLyGjUhHml_K6wq3M2fp2Ll3N_LmX6KY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
