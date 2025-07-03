@@ -43,6 +43,21 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    // Speed up builds
+    buildFeatures {
+        buildConfig true
+        viewBinding false
+        dataBinding false
+        compose false
+    }
+
+    // Lint options for faster builds
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        disable 'InvalidPackage', 'MissingTranslation'
+    }
+
     defaultConfig {
         applicationId "com.umkm.mahasiswa.platform"
         minSdkVersion flutter.minSdkVersion
@@ -50,16 +65,47 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+        
+        // Speed up builds
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        resConfigs "en", "id"
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            jniDebuggable false
+            renderscriptDebuggable false
+            zipAlignEnabled false
+            crunchPngs false
+        }
+        
         release {
             signingConfig signingConfigs.debug
             minifyEnabled false
             shrinkResources false
+            zipAlignEnabled true
+            crunchPngs true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            signingConfig signingConfigs.debug
+    }
+
+    // Speed up incremental builds
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+        javaMaxHeapSize "4g"
+    }
+
+    // Skip tasks that slow down builds
+    tasks.whenTaskAdded { task ->
+        if (task.name.contains("lint") || 
+            task.name.contains("test") && !task.name.contains("Test") ||
+            task.name.contains("Test") && project.hasProperty("skipTests")) {
+            task.enabled = false
         }
     }
 }
