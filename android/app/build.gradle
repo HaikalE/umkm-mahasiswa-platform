@@ -28,7 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.example.umkm_mahasiswa_platform"  // Update to match Firebase config
-    compileSdk = 34  // DOWNGRADE BACK TO 34 - SDK 35 CORRUPTED
+    compileSdk = 34  // Compatible with Firebase
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -46,8 +46,9 @@ android {
 
     defaultConfig {
         applicationId "com.example.umkm_mahasiswa_platform"  // Update to match Firebase config
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        // FIX: Override minSdkVersion to 23 for Firebase compatibility
+        minSdkVersion 23  // Required for Firebase Auth
+        targetSdkVersion 34  // Match compileSdk
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
