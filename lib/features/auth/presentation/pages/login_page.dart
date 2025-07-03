@@ -90,9 +90,9 @@ class _LoginPageState extends State<LoginPage> {
     if (!_isFirebaseAvailable) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('🚨 Google Login tidak tersedia - Firebase belum terkonfigurasi'),
+          content: Text('🚨 Google Login tidak tersedia'),
           backgroundColor: AppColors.warning,
-          duration: Duration(seconds: 3),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Google Login akan tersedia setelah Firebase setup selesai'),
+            content: Text('Google Login akan tersedia setelah Firebase setup'),
             backgroundColor: AppColors.info,
           ),
         );
@@ -169,10 +169,11 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 
-                // Firebase Status Alert
+                // Firebase Status Alert - FIXED LAYOUT
                 if (!_isFirebaseAvailable) ...[
                   const SizedBox(height: 16),
                   Container(
+                    width: double.infinity,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppColors.warning.withOpacity(0.1),
@@ -180,10 +181,11 @@ class _LoginPageState extends State<LoginPage> {
                       border: Border.all(color: AppColors.warning.withOpacity(0.3)),
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Icon(Icons.info_outline, color: AppColors.warning, size: 20),
                         const SizedBox(width: 8),
-                        Expanded(
+                        Expanded( // FIXED: Wrap text with Expanded
                           child: Text(
                             'Mode Demo: Google Login sementara tidak tersedia',
                             style: TextStyle(
@@ -250,8 +252,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 24),
                 
-                // Demo Credentials Helper
+                // Demo Credentials Helper - FIXED LAYOUT
                 Container(
+                  width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: AppColors.info.withOpacity(0.1),
@@ -262,25 +265,31 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(Icons.lightbulb_outline, color: AppColors.info, size: 16),
                           const SizedBox(width: 6),
-                          Text(
-                            'Demo Login - Gunakan email dan password apa saja',
-                            style: TextStyle(
-                              color: AppColors.info,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
+                          Expanded( // FIXED: Wrap text with Expanded
+                            child: Text(
+                              'Demo Login - Gunakan email dan password apa saja',
+                              style: TextStyle(
+                                color: AppColors.info,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        'Contoh: demo@test.com / password123',
-                        style: TextStyle(
-                          color: AppColors.info,
-                          fontSize: 11,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 22),
+                        child: Text(
+                          'Contoh: demo@test.com / password123',
+                          style: TextStyle(
+                            color: AppColors.info,
+                            fontSize: 11,
+                          ),
                         ),
                       ),
                     ],
@@ -336,7 +345,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 24),
                 
-                // Google Login Button
+                // Google Login Button - FIXED LAYOUT
                 SizedBox(
                   width: double.infinity,
                   height: 56,
@@ -360,6 +369,7 @@ class _LoginPageState extends State<LoginPage> {
                           )
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min, // FIXED: Prevent overflow
                             children: [
                               Icon(
                                 Icons.g_mobiledata,
@@ -368,17 +378,21 @@ class _LoginPageState extends State<LoginPage> {
                                     ? AppColors.grey700 
                                     : AppColors.grey400,
                               ),
-                              const SizedBox(width: 12),
-                              Text(
-                                _isFirebaseAvailable 
-                                    ? 'Masuk dengan Google'
-                                    : 'Google Login (Tidak Tersedia)',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: _isFirebaseAvailable 
-                                      ? AppColors.grey700 
-                                      : AppColors.grey400,
+                              const SizedBox(width: 8), // FIXED: Reduce spacing
+                              Flexible( // FIXED: Make text flexible
+                                child: Text(
+                                  _isFirebaseAvailable 
+                                      ? 'Masuk dengan Google'
+                                      : 'Google Login (Tidak Tersedia)',
+                                  style: TextStyle(
+                                    fontSize: 14, // FIXED: Reduce font size
+                                    fontWeight: FontWeight.w500,
+                                    color: _isFirebaseAvailable 
+                                        ? AppColors.grey700 
+                                        : AppColors.grey400,
+                                  ),
+                                  overflow: TextOverflow.ellipsis, // FIXED: Handle overflow
+                                  maxLines: 1,
                                 ),
                               ),
                             ],
