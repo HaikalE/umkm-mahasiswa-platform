@@ -1,9 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'core/config/app_config.dart';
-import 'core/network/api_client.dart';
+// import 'core/network/api_client.dart';  // COMMENTED TEMPORARILY
 import 'core/storage/local_storage.dart';
 
 // Features will be added here as we develop them
@@ -64,10 +63,10 @@ Future<void> _initCore() async {
   
   sl.registerLazySingleton(() => dio);
   
-  // API Client
-  sl.registerLazySingleton<ApiClient>(
-    () => ApiClient(sl()),
-  );
+  // API Client - COMMENTED TEMPORARILY
+  // sl.registerLazySingleton<ApiClient>(
+  //   () => ApiClient(sl<Dio>()),
+  // );
   
   // Local Storage
   sl.registerLazySingleton<LocalStorage>(
