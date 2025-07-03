@@ -27,7 +27,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.umkm.mahasiswa.platform"
-    compileSdk = 35
+    compileSdk = 34  // DOWNGRADE BACK TO 34 - SDK 35 CORRUPTED
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -58,7 +58,7 @@ android {
             minifyEnabled false
             shrinkResources false
         }
-        
+
         release {
             signingConfig signingConfigs.debug
             minifyEnabled false
