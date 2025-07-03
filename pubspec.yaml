@@ -9,6 +9,7 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
+  get_it: ^7.6.4  # Add this line
   flutter:
     sdk: flutter
   
@@ -58,6 +59,8 @@ dependencies:
   pull_to_refresh: ^2.0.0
   
 dev_dependencies:
+  test: ^1.24.6   # Add this
+  mockito: ^5.4.2 # Add this
   flutter_test:
     sdk: flutter
   
