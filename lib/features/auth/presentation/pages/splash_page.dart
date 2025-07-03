@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';  // Add Firebase test
+import 'package:firebase_auth/firebase_auth.dart';       // Add Firebase test
 
 import '../../../../core/config/app_config.dart';
 import '../../../../core/router/app_router.dart';
@@ -25,6 +27,7 @@ class _SplashPageState extends State<SplashPage>
   void initState() {
     super.initState();
     _initAnimations();
+    _testFirebaseConnection();  // Test Firebase first!
     _navigateToNext();
   }
 
@@ -51,6 +54,30 @@ class _SplashPageState extends State<SplashPage>
     ));
 
     _animationController.forward();
+  }
+
+  // Test Firebase connection
+  Future<void> _testFirebaseConnection() async {
+    try {
+      // Test Firestore connection
+      await FirebaseFirestore.instance
+          .collection('test')
+          .doc('connection-test')
+          .set({
+        'message': 'Firebase connected successfully!',
+        'timestamp': FieldValue.serverTimestamp(),
+        'app_version': '1.0.0',
+      });
+      
+      print('✅ Firestore connection successful!');
+      
+      // Test Firebase Auth instance
+      final auth = FirebaseAuth.instance;
+      print('✅ Firebase Auth ready: ${auth.app.name}');
+      
+    } catch (e) {
+      print('❌ Firebase connection failed: $e');
+    }
   }
 
   Future<void> _navigateToNext() async {
