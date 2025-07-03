@@ -58,33 +58,40 @@ class _SplashPageState extends State<SplashPage>
     
     if (!mounted) return;
 
-    final localStorage = di.sl<LocalStorage>();
-    
-    // Check if user has completed onboarding
-    final hasCompletedOnboarding = await localStorage.getBool(
-      StorageKeys.onboardingCompleted,
-    ) ?? false;
-    
-    // Check if user is logged in
-    final accessToken = await localStorage.getString(StorageKeys.accessToken);
-    final isLoggedIn = accessToken != null && accessToken.isNotEmpty;
-
-    if (!hasCompletedOnboarding) {
-      context.go(AppRouter.onboarding);
-    } else if (!isLoggedIn) {
-      context.go(AppRouter.login);
-    } else {
-      // Check if profile setup is completed
-      final hasCompletedProfileSetup = await localStorage.getBool(
-        StorageKeys.profileSetupCompleted,
+    try {
+      // Try to get localStorage from dependency injection
+      final localStorage = di.sl<LocalStorage>();
+      
+      // Check if user has completed onboarding
+      final hasCompletedOnboarding = await localStorage.getBool(
+        StorageKeys.onboardingCompleted,
       ) ?? false;
       
-      if (!hasCompletedProfileSetup) {
-        final userType = await localStorage.getString(StorageKeys.userType) ?? 'student';
-        context.go('${AppRouter.profileSetup}?type=$userType');
+      // Check if user is logged in
+      final accessToken = await localStorage.getString(StorageKeys.accessToken);
+      final isLoggedIn = accessToken != null && accessToken.isNotEmpty;
+
+      if (!hasCompletedOnboarding) {
+        if (mounted) context.go(AppRouter.onboarding);
+      } else if (!isLoggedIn) {
+        if (mounted) context.go(AppRouter.login);
       } else {
-        context.go(AppRouter.home);
+        // Check if profile setup is completed
+        final hasCompletedProfileSetup = await localStorage.getBool(
+          StorageKeys.profileSetupCompleted,
+        ) ?? false;
+        
+        if (!hasCompletedProfileSetup) {
+          final userType = await localStorage.getString(StorageKeys.userType) ?? 'student';
+          if (mounted) context.go('${AppRouter.profileSetup}?type=$userType');
+        } else {
+          if (mounted) context.go(AppRouter.home);
+        }
       }
+    } catch (e) {
+      // If dependency injection fails, go to onboarding as fallback
+      debugPrint('Error during navigation: $e');
+      if (mounted) context.go(AppRouter.onboarding);
     }
   }
 
