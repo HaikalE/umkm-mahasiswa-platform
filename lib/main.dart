@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:firebase_core/firebase_core.dart';  // COMMENTED TEMPORARILY
+import 'package:firebase_core/firebase_core.dart';  // ENABLED NOW!
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/config/app_config.dart';
@@ -13,8 +13,8 @@ import 'injection_container.dart' as di;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Firebase - COMMENTED TEMPORARILY until google-services.json is added
-  // await Firebase.initializeApp();
+  // Initialize Firebase - NOW ENABLED!
+  await Firebase.initializeApp();
   
   // Initialize Hive
   await Hive.initFlutter();
