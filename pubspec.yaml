@@ -36,11 +36,11 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   
-  # Firebase
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.15.3
-  firebase_messaging: ^14.7.10
-  firebase_analytics: ^10.7.4
+  # Firebase - COMMENTED TEMPORARILY until configuration is added
+  # firebase_core: ^2.24.2
+  # firebase_auth: ^4.15.3
+  # firebase_messaging: ^14.7.10
+  # firebase_analytics: ^10.7.4
   
   # Image & Media
   image_picker: ^1.0.4
